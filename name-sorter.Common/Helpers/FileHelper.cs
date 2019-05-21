@@ -20,40 +20,58 @@ namespace name_sorter.Common.Helpers
         public List<IName> ReadFile(string filename)
         {
             List<IName> names = new List<IName>();
-            using (StreamReader sr = File.OpenText(Path.Combine(Environment.CurrentDirectory, filename)))
+            if (filename != string.Empty)
             {
-                string s = String.Empty;
-                while ((s = sr.ReadLine()) != null)
+                try
                 {
-                    string[] temp = s.Split(" ");
-                    names.Add(new Name()
+                    using (StreamReader sr = File.OpenText(Path.Combine(Environment.CurrentDirectory, filename)))
                     {
-                        FirstNames = string.Join(" ", temp.SkipLast(1).ToArray()),
-                        LastName = temp[temp.Length - 1]
-                    });
+                        string s = String.Empty;
+                        while ((s = sr.ReadLine()) != null)
+                        {
+                            string[] temp = s.Split(" ");
+                            names.Add(new Name()
+                            {
+                                FirstNames = string.Join(" ", temp.SkipLast(1).ToArray()),
+                                LastName = temp[temp.Length - 1]
+                            });
+                        }
+                    }
                 }
+                catch (Exception e)
+                {
+                    this.logHelper.LogException(e);
+                }
+
             }
             return names;
         }
 
         public bool WriteFile(string filename, List<IName> names)
         {
-            using (StreamWriter sw = new StreamWriter(Path.Combine(Environment.CurrentDirectory, filename)))
+            if(filename != string.Empty)
             {
-                try
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Environment.CurrentDirectory, filename)))
                 {
-                    foreach (Name n in names)
+                    try
                     {
-                        sw.WriteLine(n.FirstNames + " " + n.LastName);
+                        foreach (Name n in names)
+                        {
+                            sw.WriteLine(n.FirstNames + " " + n.LastName);
+                        }
+                        return true;
                     }
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    this.logHelper.LogException(e);
-                    return false;
-                }
+                    catch (Exception e)
+                    {
+                        this.logHelper.LogException(e);
+                        return false;
+                    }
 
+                }
+            }
+            else
+            {
+                return false;
             }
         }
     }

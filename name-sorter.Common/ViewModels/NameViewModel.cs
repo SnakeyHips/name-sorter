@@ -20,14 +20,22 @@ namespace name_sorter.Common.ViewModels
 
         public bool SortNames()
         {
-            try
+            if(Names.Count > 1)
             {
-                Names.Sort((a, b) => a.LastName.CompareTo(b.LastName));
-                return true;
+                try
+                {
+                    Names.Sort((a, b) => a.LastName.CompareTo(b.LastName));
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    this.logHelper.LogException(e);
+                    return false;
+                }
             }
-            catch (Exception e)
+            else
             {
-                this.logHelper.LogException(e);
+                this.logHelper.LogMessage("No names provided!");
                 return false;
             }
         }
