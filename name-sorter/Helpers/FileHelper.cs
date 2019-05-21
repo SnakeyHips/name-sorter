@@ -11,7 +11,7 @@ namespace name_sorter.Helpers
         public static List<Name> ReadFile(string filename)
         {
             List<Name> names = new List<Name>();
-            using (StreamReader sr = File.OpenText(Path.Combine(Environment.CurrentDirectory, "./" + filename)))
+            using (StreamReader sr = File.OpenText(Path.Combine(Environment.CurrentDirectory, filename)))
             {
                 string s = String.Empty;
                 while ((s = sr.ReadLine()) != null)
@@ -29,7 +29,7 @@ namespace name_sorter.Helpers
 
         public static bool WriteFile(string filename, List<Name> names)
         {
-            using (StreamWriter sw = new StreamWriter(Path.Combine(Environment.CurrentDirectory, "./" + filename)))
+            using (StreamWriter sw = new StreamWriter(Path.Combine(Environment.CurrentDirectory, filename)))
             {
                 try
                 {
