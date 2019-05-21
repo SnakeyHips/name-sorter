@@ -1,5 +1,4 @@
-﻿using name_sorter.Common.Helpers;
-using name_sorter.Contracts.Helpers;
+﻿using name_sorter.Contracts.Helpers;
 using name_sorter.Contracts.Models;
 using name_sorter.Contracts.ViewModels;
 using System;
