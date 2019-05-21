@@ -1,5 +1,5 @@
-﻿using name_sorter.Helpers;
-using name_sorter.ViewModels;
+﻿using name_sorter.Common.Helpers;
+using name_sorter.Common.ViewModels;
 
 namespace name_sorter
 {
@@ -7,25 +7,27 @@ namespace name_sorter
     {
         static void Main(string[] args)
         {
+            LogHelper logHelper = new LogHelper();
+            FileHelper fileHelper = new FileHelper(logHelper);
             foreach(var arg in args)
             {
-                NameViewModel nameViewModel = new NameViewModel();
-                nameViewModel.Names = FileHelper.ReadFile(arg);
+                NameViewModel nameViewModel = new NameViewModel(logHelper);
+                nameViewModel.Names = fileHelper.ReadFile(arg);
                 if (nameViewModel.SortNames())
                 {
-                    LogHelper.LogNames(nameViewModel.Names);
+                    logHelper.LogNames(nameViewModel.Names);
                 }
                 else
                 {
-                    LogHelper.LogMessage("Failed to sort!");
+                    logHelper.LogMessage("Failed to sort!");
                 }
-                if (FileHelper.WriteFile("./sorted-names-list.txt", nameViewModel.Names))
+                if (fileHelper.WriteFile("./sorted-names-list.txt", nameViewModel.Names))
                 {
-                    LogHelper.LogMessage("Sorted list text file written successfully!");
+                    logHelper.LogMessage("Sorted list text file written successfully!");
                 }
                 else
                 {
-                    LogHelper.LogMessage("Sorted list text file written failed!");
+                    logHelper.LogMessage("Sorted list text file written failed!");
                 }
             }            
         }

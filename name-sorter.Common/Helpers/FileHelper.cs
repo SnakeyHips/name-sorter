@@ -1,16 +1,25 @@
-﻿using name_sorter.Models;
+﻿using name_sorter.Common.Models;
+using name_sorter.Contracts.Helpers;
+using name_sorter.Contracts.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace name_sorter.Helpers
+namespace name_sorter.Common.Helpers
 {
-    public class FileHelper
+    public class FileHelper : IFileHelper
     {
-        public static List<Name> ReadFile(string filename)
+        ILogHelper logHelper;
+
+        public FileHelper(ILogHelper logHelper)
         {
-            List<Name> names = new List<Name>();
+            this.logHelper = logHelper;
+        }
+
+        public List<IName> ReadFile(string filename)
+        {
+            List<IName> names = new List<IName>();
             using (StreamReader sr = File.OpenText(Path.Combine(Environment.CurrentDirectory, filename)))
             {
                 string s = String.Empty;
@@ -27,7 +36,7 @@ namespace name_sorter.Helpers
             return names;
         }
 
-        public static bool WriteFile(string filename, List<Name> names)
+        public bool WriteFile(string filename, List<IName> names)
         {
             using (StreamWriter sw = new StreamWriter(Path.Combine(Environment.CurrentDirectory, filename)))
             {
@@ -41,7 +50,7 @@ namespace name_sorter.Helpers
                 }
                 catch (Exception e)
                 {
-                    LogHelper.LogException(e);
+                    this.logHelper.LogException(e);
                     return false;
                 }
 

@@ -16,4 +16,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\name-sorter.Common\name-sorter.Common.csproj" />
+  </ItemGroup>
+
 </Project>
