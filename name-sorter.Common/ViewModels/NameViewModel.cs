@@ -3,6 +3,7 @@ using name_sorter.Contracts.Models;
 using name_sorter.Contracts.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace name_sorter.Common.ViewModels
 {
@@ -24,7 +25,7 @@ namespace name_sorter.Common.ViewModels
             {
                 try
                 {
-                    Names.Sort((a, b) => a.LastName.CompareTo(b.LastName));
+                    Names = Names.OrderBy(n => n.LastName).ThenBy(n => n.FirstNames).ToList();
                     return true;
                 }
                 catch (Exception e)
